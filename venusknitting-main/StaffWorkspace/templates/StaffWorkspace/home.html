@@ -1,0 +1,207 @@
+
+{% extends "StaffWorkspace/base.html" %}
+{% load static %}
+{% block extraCSS %}
+<link rel="stylesheet" href="{% static 'StaffWorkspace/css/home.css' %}">
+{% endblock %}
+{% block content %}
+<div class="container">
+<div class="button-container">
+<a href="{% url 'logout_user' %}">
+<button type="button" class="btn btn-primary">Logout</button>
+</a>
+<a href="{% url 'report' None %}">
+<button type="button" class="btn btn-success">Report</button>
+</a>
+
+<a href="/admin/">
+<button type="button" class="btn btn-warning">Add</button>
+</a>
+</div>
+<div class="contents">
+{% for catagory in catagories %}
+<a href="{% url 'input_form' catagory.name %}">
+<div class="option" style="border: 5px solid {{ catagory.color }};">
+<div class="optionImage" style="background-color: {{ catagory.color }};">
+<img src="/media/{{ catagory.image }}" alt="{{ catagory.name }}">
+<div class="overlay"></div>
+<h3 class="optionTitle">{{ catagory.name|upper }}</h3>
+</div>
+</div>
+</a>
+{% endfor %}
+
+<!-- Add the face-id button here -->
+<a href="http://127.0.0.1:5000/" target="_blank">
+<div class="face-id-button">
+    <img src="https://w7.pngwing.com/pngs/684/741/png-transparent-facial-recognition-system-iris-recognition-computer-icons-face-face-face-text-people.png" alt="Face ID">
+</div>
+</a>
+
+</div>
+</div>
+
+
+<style>
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+       
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .btn {
+        font-size: 18px;
+        font-weight: bold;
+        text-transform: uppercase;
+        border-radius: 10px;
+        padding: 10px 20px;
+        transition: transform 0.3s ease-in-out;
+        cursor: pointer;
+    }
+
+    .btn:hover {
+        transform: scale(1.05);
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    .btn-primary:hover {
+        background-color: #0062cc;
+        border-color: #005cbf;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
+    }
+
+    .btn-success:hover {
+        background-color: #218838;
+        border-color: #1e7e34;
+    }
+
+    .btn-warning {
+        background-color: #ffc107;
+        border-color: #ffc107;
+    }
+
+    .btn-warning:hover {
+        background-color: #e0a800;
+        border-color: #d39e00;
+    }
+
+    .contents {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        max-width: 800px;
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    .option {
+        position: relative;
+        width: 200px;
+        height: 200px;
+        margin: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: transform 0.3s ease-in-out;
+        cursor: pointer;
+    }
+
+    .option:hover {
+        transform: scale(1.05);
+    }
+
+    .optionImage {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .optionImage img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .option:hover .optionImage img {
+        transform: scale(1.2);
+    }
+
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+    }
+
+    .option:hover .overlay {
+        opacity: 1;
+    }
+
+    .optionTitle {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 10px;
+        margin: 0;
+        color: #fff;
+        font-size: 18px;
+        font-weight: bold;
+        text-align: center;
+        text-transform: uppercase;
+        background-color: rgba(0, 0, 0, 0.8);
+        transition: transform 0.3s ease-in-out;
+        transform: translateY(100%);
+    }
+
+    .option:hover .optionTitle {
+        transform: translateY(0);
+    }
+
+    /* Add styles for the face-id button */
+    .face-id-button {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        cursor: pointer;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .face-id-button:hover {
+        transform: scale(1.2) translate(-50%, -50%);
+    }
+
+    .face-id-button img {
+        width: 100px;
+        height: 100px;
+    }
+</style>
+{% endblock %}
+

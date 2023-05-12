@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Venus Knitting</title>
+    <meta="utf-8">
+    <link rel="shortcut icon" type="image/png" href="{% static 'StaffWorkspace/img/favicon.png' %}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'StaffWorkspace/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'StaffWorkspace/css/base.css' %}">
+    <script src="{% static 'StaffWorkspace/js/bootstrap.min.js' %}"></script>
+    {% block extraCSS %}{% endblock %}
+    <noscript>
+        <style type="text/css">
+            .container {color:#c1c1c1;}
+            .alert {display:block;}
+            .submitButton {display:none;}
+        </style>    
+    </noscript>
+    <style>
+        body {
+            height: 100vh;
+            width: 100vw;
+            background: linear-gradient(to bottom, #96c3ff, #ffffff);
+            padding-top: 50px;
+            padding-bottom: 100px;
+        }
+        .header {
+            position: static;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 999;
+        }
+        .header img {
+            margin-top: -50px; /* adjust the value as needed */
+        }
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #302222;
+            text-align: center;
+            padding: 20px;
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="{% url 'home' %}">
+            <img src="https://t3.ftcdn.net/jpg/05/18/32/14/360_F_518321485_Nb3fnUewOORTmwWP9QhzMuclohxKhS2j.jpg" alt="good logo which contains VKM" style="width: 600px; height: 120px;">
+        </a>       
+    </div>
+    <div class="alert">
+        <strong>Danger!</strong> Do not submit any data. Reset your browser or <a href="https://www.enable-javascript.com/" target="_blank" style= "color: white;"><u>enable JavaScript.</u> </a>
+    </div>
+    {% block content %}
+    {% endblock %}
+    <div class="footer">
+        <br/>
+        <p>Registered Office: 49/3 Kaliyappa Nagar 2nd Street, Vijayapuram Kangeyam Road, Tiruppur</p>
+        <p>Branch Office: 431/1E2, Raja Nagar Veerapandi, Tiruppur</p>
+        <p>Email: venuskknitting1@gmail.com</p>
+    </div> 
+</body>
+</html>

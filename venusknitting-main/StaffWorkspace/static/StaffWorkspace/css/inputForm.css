@@ -1,0 +1,135 @@
+
+css
+.container {
+  height: 100%;
+  padding-bottom: 40px;
+}
+
+.logout_report {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 25px;
+  padding: 5px;
+}
+
+.logout_report button {
+  height: 30px;
+  width: 105px;
+  padding: 0;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 22px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+
+  &:hover {
+    background-color: #0069d9;
+  }
+}
+
+.formDesign {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding-top: 150px;
+}
+
+.submitDesign {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.submitButton {
+  height: 40px;
+  width: 155px;
+  padding: 0;
+  color: #fff;
+  background-color: #020202;
+  border: none;
+  border-radius: 22px;
+  cursor: pointer;
+  box-shadow: 0 7px 20px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.2s ease-in-out;
+
+  &:hover {
+    background-color: #000000;
+  }
+}
+
+#ending_balance_comment {
+  font-size: 0.8rem;
+  margin: 0 auto;
+  color: red;
+}
+
+.input-form__section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+.input-form__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.input-form__group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.input-form__label {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.input-form__select {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  width: 100%;
+
+  &:focus {
+    outline: none;
+    border-color: #060606;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  }
+}
+
+.input-form__input {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  width: 100%;
+
+  &:focus {
+    outline: none;
+    border-color: #080808;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  }
+}
+
+.input-form__error {
+  color: red;
+  font-size: 0.8rem;
+}
+

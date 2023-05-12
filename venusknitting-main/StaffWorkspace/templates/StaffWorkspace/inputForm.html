@@ -1,0 +1,157 @@
+{% extends "StaffWorkspace/base.html" %}
+{% load static %}
+
+{% block extraCSS %}
+    <link rel="stylesheet" href="{% static 'StaffWorkspace/css/inputForm.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="logout_report ">
+            <a href="{% url 'logout_user' %}">
+                <button type="button" class="btn btn-default">Logout</button>
+            </a>
+        </div>
+        <div class="logout_report">
+            <a href="{% url 'report' catagory %}"><button type="button" class="btn btn-default">Report</button></a>
+        </div>
+        
+        <div class="formDesign">
+            <form class="form" action="{% url 'input_form_submit' catagory %}" method="post">
+            {% csrf_token %}
+                <div class="form-group row">
+                    <span class="col-md-4">Item Name:</span>
+                    <select class="form-control col-md-8" onchange="itemChange()" id="item" name ="item_name">
+                        <option selected value="Select">Select</option>
+                        {% for item in items %}
+                            <option value="{{ item.name }}">{{ item.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group row">
+                    <span class="col-md-4">Vendor:</span>
+                    <select class="form-control col-md-8" id="vendor_name" name="vendor_name">
+                        <option selected value="Select">Select</option>
+                        {% for vendor in vendors %}
+                            <option value="{{ vendor.name }}">{{ vendor.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group row">
+                    <span class="col-md-4">Stock Location:</span>
+                    <select class="form-control col-md-8" id="stock_location" name="stock_location">
+                        <option selected  value="Select">Select</option>
+                        {% for location in stock_locations %}
+                            <option value="{{ location.name }}">{{ location.name }} - {{ location.address }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group row">
+                    <span class="col-md-4">Cost / Unit:</span>
+                    {{ form.cost_per_unit }}
+                </div>
+                <input type="text" hidden id="safety_stock_limit">
+                <div class="form-group row">
+                    <span class="col-md-4">Previous Balance:</span>
+                    <input type="text" class="form-control col-md-8" id="previous_balance" name ="previous_balance" readonly>
+                </div>   
+                <div class="form-group row">
+                    <span class="col-md-4">Purchase:</span>
+                    {{ form.purchase }}
+                </div>  
+                <div class="form-group row">
+                    <span class="col-md-4">Issued:</span>
+                    {{ form.issued }}
+                </div>              
+                <div class="form-group row">
+                    <span class="col-md-4">Ending Balance:</span>
+                    {{ form.ending_balance }}
+                    <p id="ending_balance_comment"></p>
+                </div>                
+                <div class="form-group row">
+                    <span class="col-md-4">Issued to:</span>
+                    {{ form.issued_to }}
+                </div>
+                
+                <div >
+                    <input value="{{ catagory }}" name="catagory" hidden>
+                </div>
+                <br/>
+                <div class="submitDesign">
+                    <button type="submit" class="btn btn-default submitButton" id="submit" onclick="submitValidation()" {{noJavaScript}}>Submit</button>                    
+                    <p id="ending_balance_comment"><br>{{ error }}</p>
+                </div>
+            </form>
+        </div>
+    </div> 
+    
+    <script>
+        function itemChange(){
+            // Changing the value of previous_balance depending on item choice
+            {% for item in items %}
+                if (document.getElementById("item").value == "{{ item.name }}"){
+                    document.getElementById("previous_balance").value = "{{ item.balance }}";
+                    document.getElementById("id_cost_per_unit").value = "{{ item.cost_per_unit }}";
+                    document.getElementById("safety_stock_limit").value = "{{ item.safety_stock_limit }}";
+                    document.getElementById("id_issued").value = 0;
+                    document.getElementById("id_purchase").value = 0;
+                    document.getElementById("id_ending_balance").value = 0;
+                    document.getElementById("id_ending_balance").style.backgroundColor = "white"; // border color
+                    document.getElementById("id_ending_balance").style.borderColor = "#ced4da"; // border color when input value is proper
+                    document.getElementById("ending_balance_comment").innerHTML =""
+                    console.log("{{ item.balance }}"); // Testing on browser
+                }
+            {% endfor %}
+        }
+        
+        // Calculation for input filed so that auto ending_balance can show depending on issued item and purchase item.
+        function issuedItem(){
+            if (parseInt(document.getElementById("id_issued").value) <= (parseInt(document.getElementById("previous_balance").value) + parseInt(document.getElementById("id_purchase").value))){
+                    document.getElementById("id_ending_balance").style.borderColor = "#ced4da"; // border color when input value is proper
+                    document.getElementById("submit").disabled = false;         // If input is ok then you can submit
+                    document.getElementById("ending_balance_comment").innerHTML =""
+                    var ending_balance = parseInt(document.getElementById("previous_balance").value) + parseInt(document.getElementById("id_purchase").value) -  parseInt(document.getElementById("id_issued").value);
+                    document.getElementById("id_ending_balance").value = ending_balance;
+                    console.log(ending_balance);
+                    
+                    if (parseInt(document.getElementById("id_ending_balance").value) <= parseInt(document.getElementById("safety_stock_limit").value)){                        
+                        document.getElementById("id_ending_balance").style.backgroundColor = "yellow"; // border color when safety_stock_limit crossed
+                        document.getElementById("ending_balance_comment").innerHTML ="*You are crossing the Safety Stock Limit. So purchase new item."
+                    }
+                    else{
+                        document.getElementById("id_ending_balance").style.backgroundColor = "white"; // border color
+                        document.getElementById("ending_balance_comment").innerHTML =""
+                    }
+            }
+            else{
+                document.getElementById("id_ending_balance").style.borderColor = "red"; // border color when input value is false
+                document.getElementById("id_ending_balance").style.backgroundColor = "white"; // border color
+                document.getElementById("ending_balance_comment").innerHTML ="*You don't have enough item."
+                document.getElementById("submit").disabled = true;          // If input isn't ok then you can't submit
+            }
+        }
+        
+        function purchaseItem(){
+            issuedItem();
+            var ending_balance = parseInt(document.getElementById("previous_balance").value) + parseInt(document.getElementById("id_purchase").value) -  parseInt(document.getElementById("id_issued").value);
+            document.getElementById("id_ending_balance").value = ending_balance;
+            console.log(ending_balance);
+        }
+        
+        function submitValidation(){
+            if(document.getElementById("item").value=="Select" || document.getElementById("vendor_name").value=="Select" || document.getElementById("stock_location").value=="Select"
+            || (document.getElementById("id_purchase").value==0 && document.getElementById("id_issued").value==0)){
+                event.preventDefault();
+                alert("You didn't fill form properly.");
+            }
+            else if(document.getElementById("id_purchase").value!=0 && document.getElementById("id_cost_per_unit").value==0){
+                event.preventDefault();
+                alert("You didn't fill Cost / Unit.");
+            }
+            else if(document.getElementById("id_issued").value!=0 && document.getElementById("id_issued_to").value==''){
+                event.preventDefault();
+                alert("You didn't fill Issued to.");
+            }
+        }
+    </script>
+{% endblock %}

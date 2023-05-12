@@ -1,0 +1,50 @@
+.logout{
+    float: right;
+    margin-top: 30px;
+    margin-right: 5px;
+}
+.logout button{
+    height: 30px;
+    width: 105px;
+    padding: 0;
+    color: #2303EF;
+    background-color: white;
+    border: 1px solid #2303EF;
+    border-radius: 22px;
+    
+}
+.contents{
+    /* height: 600px; */
+    padding: 120px 0px;
+    text-align: center;
+}
+.contents a{
+    color: black;
+}
+.contents a:hover{
+    text-decoration: none;    
+}
+.option{
+    height: 200px;
+    width: 170px;
+    text-align: center;
+    /* display: block; */
+    /* float: left; */
+    margin: 40px;
+    display: inline-block;
+}
+.optionImage{
+    height: 150px;
+    width: 165px;
+}
+.option img{
+    width: 90px;
+    margin: 0 auto;
+    margin-top: 30px;
+    height: 95px;
+}
+.optionText{    
+    font-family: 'Agency FB';
+    margin-top: 7px;
+    font-weight: bold;
+}
